@@ -1,23 +1,4 @@
 {
-  "1234": [
-    {
-      "name": "Robert K",
-      "user_type": "admin",
-      "joining_date": "2009-01-02",
-      "DOB": "1999-09-09",
-      "age": 22,
-      "project_name": [
-        "abc",
-        "xyz"
-      ],
-      "skill_set": [
-        "python",
-        " java"
-      ],
-      "phone_no": "7896541230",
-      "exprience": "3"
-    }
-  ],
   "1235": [
     {
       "name": "Ajit M",
@@ -40,7 +21,7 @@
   ],
   "156": [
     {
-      "name": "Akash s",
+      "name": "akash s",
       "user_type": "emp",
       "joining_date": "2009-03-1",
       "DOB": "1990-03-1",
@@ -53,10 +34,26 @@
         " java",
         " oracle",
         "c++"
-
       ],
       "phone_no": "7896541230",
       "exprience": "2"
+    }
+  ],
+  "1234": [
+    {
+      "emp_name": "Robert K",
+      "user_type": "admin",
+      "joining_date": "2009-01-02",
+      "date_birth": "1999-09-09",
+      "age": 22,
+      "project_name": [
+        "abc"
+      ],
+      "skill_set": [
+        "java"
+      ],
+      "phone_no": "7896541230",
+      "year_exp": "3"
     }
   ]
 }

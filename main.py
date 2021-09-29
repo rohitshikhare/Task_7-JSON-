@@ -12,16 +12,17 @@ def dob(DOB):
 class Employee:
     def __init__(self):
         self.file_name = "json_file.json"
-        file = open(self.file_name)
-        data = json.load(file)
-        self.Admin_keys = [i for i in data.keys()
-                           if str(data[i][0]["user_type"]).lower()
-                           == "Admin".lower()]    # adding add admin Keys
+        file_json = open(self.file_name)
+        data_file = json.load(file_json)
 
-    def write_json(self, data):
+        self.Admin_keys = [i for i in data_file.keys()
+                           if str(data_file[i][0]["user_type"]).lower()
+                           == "Admin".lower()]  # adding add admin Keys
+
+    def write_json(self, data_file):
         # writing add data in add,update,delete
         with open(self.file_name, "w") as file:
-            json.dump(data, file, indent=2)
+            json.dump(data_file, file, indent=2)
 
     def add_data(self, user_id, name, user_type, joining_date, DOB, age, phone_no,
                  project_name, skill_set, exprience):
@@ -38,7 +39,7 @@ class Employee:
 
         self.write_json(data)
 
-    def update_data(self, case, user_id, info=None): # update employee data
+    def update_data(self, case, user_id, info=None):  # update employee data
         with open(self.file_name) as file:
             data = json.load(file)
 
@@ -57,10 +58,11 @@ class Employee:
             return_list = dict_data[0][temp_dict[case]]
             for insert_data in info.split(','):
                 return_list.append(insert_data)
+
         self.write_json(data)
         print('Record Updated successfully...')
 
-    def delete_data(self, user_id): # delete employee data from json file
+    def delete_data(self, user_id):  # delete employee data from json file
         with open(self.file_name) as file:
             data = json.load(file)
 
@@ -72,21 +74,22 @@ class Employee:
             self.write_json(data)
             print('Record Deleted successfully...')
 
-    def read_data(self): # read all data except Admin user_type from json file
+    def read_data(self):  # read all data except Admin user_type from json file
         with open(self.file_name) as file:
             data = json.load(file)
 
-        for user_key in data.keys():
+        for count, user_key in enumerate(data.keys()):
             data_return = data[user_key][0]
 
             if str(data_return["user_type"]).lower() != "Admin".lower():
+                print('Record --> ', count+1)  # count of employee
 
                 for key, value in zip(data_return.keys(), data_return.values()):
                     print(key, ":", value)
                 print()
 
 
-obj = Employee() # creating obj of Employee class
+obj = Employee()  # creating obj of Employee class
 while True:
     print(end='\n')
     print("1 - Add an employee record.")
@@ -102,11 +105,16 @@ while True:
         user_id = input("Enter Employee ID:")
         name = input("Enter Employee Name: ")
         user_type = input("Enter Employee User type: ")
-
         skill_sets = list(map(str, input("Skill (separated by ,): ").split(',')))
         joining_date = input("Enter Joining Date (yyyy-mm-dd): ")
         DOB = input("Enter Date of birth (yyyy-mm-dd): ")
 
+        with open('json_file.json') as file:
+            data = json.load(file)
+            # print(data.keys())
+        if user_type in data.keys():
+            print('Employee id already Found...')
+            continue
         try:
             age = dob(DOB)
         except:
@@ -118,7 +126,7 @@ while True:
         expr = input("Enter years of experience: ")
         try:
             obj.add_data(user_id, name, user_type, joining_date, DOB, age, phone_no
-                     , project_name, skill_sets, expr)
+                         , project_name, skill_sets, expr)
         except:
             print("Enter Valid Details...")
             continue
@@ -138,6 +146,10 @@ while True:
         print("8 - Add Skill sets")
         cho = int(input("Enter Your Choice: "))
 
+        if 0 >= cho or cho >= 9:
+            print('please enter right choice...')
+            continue
+
         print('\n**** Updating an employee record ****')
         id = input("Enter Your Employee ID: ")
 
@@ -146,7 +158,7 @@ while True:
 
         data = input(f"Enter updated {temp_dict[cho]}: ")
         try:
-            if data == " ":
+            if data != "":
                 obj.update_data(cho, id, data)
             else:
                 print('You Enter Null value...')
@@ -160,7 +172,7 @@ while True:
         obj.delete_data(user_id)
 
     elif choice == 4:
-        print('**** List of Employee records ****')
+        print('**** List of Employee records ****\n')
         obj.read_data()
 
     elif choice == 5:

@@ -12,8 +12,9 @@ def dob(DOB):
 class Employee:
     def __init__(self, file="json_file.json"):
         self.file_name = file
-        file_json = open(self.file_name)
-        data_file = json.load(file_json)
+        with open(self.file_name) as file:
+            data = json.load(file)
+        data_file = json.load(file)
 
         self.Admin_keys = [i for i in data_file.keys()
                            if str(data_file[i][0]["user_type"]).lower()

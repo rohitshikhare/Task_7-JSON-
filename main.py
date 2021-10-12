@@ -10,8 +10,8 @@ def dob(DOB):
 
 
 class Employee:
-    def __init__(self):
-        self.file_name = "json_file.json"
+    def __init__(self, file="json_file.json"):
+        self.file_name = file
         file_json = open(self.file_name)
         data_file = json.load(file_json)
 
@@ -23,6 +23,7 @@ class Employee:
         # writing add data in add,update,delete
         with open(self.file_name, "w") as file:
             json.dump(data_file, file, indent=2)
+        file.close()
 
     def add_data(self, user_id, name, user_type, joining_date, DOB, age, phone_no,
                  project_name, skill_set, exprience):
@@ -31,6 +32,7 @@ class Employee:
 
         with open(self.file_name) as file:
             data = json.load(file)
+        file.close()
 
         data[user_id] = [{"name": name, "user_type": user_type, "joining_date": joining_date
                              , "DOB": DOB, "age": age, "project_name": project_name
@@ -42,6 +44,7 @@ class Employee:
     def update_data(self, case, user_id, info=None):  # update employee data
         with open(self.file_name) as file:
             data = json.load(file)
+        file.close()
 
         temp_dict = {1: 'name', 2: 'user_type', 3: 'exprience', 4: 'joining_date',
                      5: 'DOB', 6: 'phone_no', 7: 'project_name', 8: 'skill_set',
@@ -65,6 +68,7 @@ class Employee:
     def delete_data(self, user_id):  # delete employee data from json file
         with open(self.file_name) as file:
             data = json.load(file)
+        file.close()
 
         boolean = data.pop(user_id, False)
 
@@ -77,6 +81,7 @@ class Employee:
     def read_data(self):  # read all data except Admin user_type from json file
         with open(self.file_name) as file:
             data = json.load(file)
+        file.close()
 
         for count, user_key in enumerate(data.keys()):
             data_return = data[user_key][0]
@@ -134,37 +139,42 @@ while True:
         print("Record Successfully Save...")
 
     elif choice == 2:
-        print()
-        # print("1 - user id: ") assumed user id is permanent i.e not changeable
-        print("1 - Update Employee Name: ")
-        print("2 - Update Employee Type: ")
-        print("3 - Update Years of experience")
-        print("4 - Update Joining date (yyyy-mm-dd)")
-        print("5 - Update Date of birth (yyyy-mm-dd): ")
-        print("6 - Update Phone Number: ")
-        print("7 - Add Project name: ")
-        print("8 - Add Skill sets")
-        cho = int(input("Enter Your Choice: "))
+        while True:
+            print()
+            # print("1 - user id: ") assumed user id is permanent i.e not changeable
+            print("1 - Update Employee Name: ")
+            print("2 - Update Employee Type: ")
+            print("3 - Update Years of experience")
+            print("4 - Update Joining date (yyyy-mm-dd)")
+            print("5 - Update Date of birth (yyyy-mm-dd): ")
+            print("6 - Update Phone Number: ")
+            print("7 - Add Project name: ")
+            print("8 - Add Skill sets")
+            print("9 - Exit from Update: ")
+            cho = int(input("Enter Your Choice: "))
 
-        if 0 >= cho or cho >= 9:
-            print('please enter right choice...')
-            continue
+            if cho ==9:
+                break
 
-        print('\n**** Updating an employee record ****')
-        id = input("Enter Your Employee ID: ")
-
-        temp_dict = {1: 'name', 2: 'user_type', 3: 'exprience', 4: 'joining_date',
-                     5: 'DOB', 6: 'phone_no', 7: 'project_name', 8: 'skill_set'}
-
-        data = input(f"Enter updated {temp_dict[cho]}: ")
-        try:
-            if data != "":
-                obj.update_data(cho, id, data)
-            else:
-                print('You Enter Null value...')
+            if 0 >= cho or cho >= 9:
+                print('please enter right choice...')
                 continue
-        except:
-            print("Please Enter Right employee id...")
+
+            print('\n**** Updating an employee record ****')
+            id = input("Enter Your Employee ID: ")
+
+            temp_dict = {1: 'name', 2: 'user_type', 3: 'exprience', 4: 'joining_date',
+                         5: 'DOB', 6: 'phone_no', 7: 'project_name', 8: 'skill_set'}
+
+            data = input(f"Enter updated {temp_dict[cho]}: ")
+            try:
+                if data != "":
+                    obj.update_data(cho, id, data)
+                else:
+                    print('You Enter Null value...')
+                    continue
+            except:
+                print("Please Enter Right employee id...")
 
     elif choice == 3:
         print('\n****Deleting an employee record****')
